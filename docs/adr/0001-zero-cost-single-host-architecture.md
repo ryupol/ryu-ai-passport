@@ -5,7 +5,7 @@ date: 2026-07-12
 
 # Run AI Passport as a zero-cost single-host local service
 
-AI Passport will serve at most 5–10 trusted friends and family, use local inference only, incur no hosting or model-API charges, and be available only while the owner's GPU PC is powered on. The PC is the single physical host; no VPS is used. Before any public route is enabled, the host must be upgraded from Windows 10 to a supported, fully patched Windows 11 release. Host boot must restore the service without an interactive Windows login. The Tailscale Windows service starts before login, owns the node identity, provides Funnel HTTPS ingress, and proxies only configured public routes to WSL2 services through localhost. Docker Engine and Docker Compose v2 inside Ubuntu on WSL2 manage Authentik, Open WebUI, a Discord provisioning bot, LiteLLM with Postgres, Ollama on the RTX 3060 8 GB GPU, and a private Prometheus/Grafana monitoring stack.
+AI Passport will serve at most 5–10 trusted friends and family, use local inference only, incur no hosting or model-API charges, and be available only while the owner's GPU PC is powered on. The PC is the single physical host; no VPS is used. Before any public route is enabled, the host must be upgraded from Windows 10 to a supported, fully patched Windows 11 release. Host boot must restore the service without an interactive Windows login. The Tailscale Windows service starts before login, owns the node identity, provides Funnel HTTPS ingress, and proxies only configured public routes to WSL2 services through localhost. Docker Engine and Docker Compose v2 inside Ubuntu on WSL2 manage Authentik, Open WebUI, a Discord provisioning bot, LiteLLM with Postgres, Ollama on the RTX 3060 12 GB GPU, and a private Prometheus/Grafana monitoring stack.
 
 Access is derived from a dedicated `AI Passport` Discord role. Adding the role permits Discord login and credential issuance; removing the role must disable chat access and revoke the member's API credential so new browser-chat and API requests fail within 60 seconds. A request already generating when the role is removed may finish, but no later request may start. The LiteLLM master interface, Ollama, Postgres, Grafana, and container administration ports remain private. Only authenticated chat and the key-protected LiteLLM API cross the public boundary.
 
@@ -34,7 +34,7 @@ flowchart TB
         litellm["LiteLLM<br/>OpenAI-compatible gateway"]
         postgres[("Postgres<br/>Identity and usage state")]
         ollama["Ollama<br/>Benchmark-capped concurrency plus FIFO queue"]
-        gpu["RTX 3060 8 GB<br/>Local inference"]
+        gpu["RTX 3060 12 GB<br/>Local inference"]
         prometheus["Prometheus<br/>Metrics collection"]
         grafana["Grafana<br/>Private operator dashboard"]
     end
@@ -78,7 +78,7 @@ Public traffic terminates at Tailscale Funnel, which already performs TLS termin
 
 - GPU PC is the single failure and availability boundary; when it sleeps or stops, all AI Passport functions stop.
 - Tailscale Funnel is a beta dependency with fixed bandwidth limits and a `*.ts.net` hostname. Revisit ingress if those constraints harm chat streaming or agent use.
-- No cloud fallback exists. Coding quality, context length, throughput, and concurrency are limited by the 8 GB GPU.
+- No cloud fallback exists. Coding quality, context length, throughput, and concurrency are limited by the 12 GB GPU.
 - The Windows 11 upgrade and current security patches are a deployment gate. Tailscale Funnel and external member access must remain disabled until the upgrade completes; private local setup and testing may proceed on Windows 10.
 - Boot recovery must start the WSL2 environment and Docker daemon automatically, then restore containers through restart policies and health checks without requiring the operator to log in.
 - Deployment validation must prove that the Windows Tailscale service can reach only intended WSL2 localhost ports after cold boot and that Windows and Hyper-V firewall rules do not expose private service ports.
@@ -86,6 +86,4 @@ Public traffic terminates at Tailscale Funnel, which already performs TLS termin
 
 ## Continuation
 
-Next-agent handoff: `/private/tmp/ryu-ai-passport-handoff.md`
-
-This handoff lives in the operating system's temporary directory and may be deleted by system cleanup. Regenerate it from the ADR, `CONTEXT.md`, and repository state if missing.
+Next-agent handoff: [`HANDOFF.md`](../../HANDOFF.md)

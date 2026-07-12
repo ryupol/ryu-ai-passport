@@ -1,0 +1,13 @@
+.DS_Store
+.idea/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+secrets/
+*.key
+*.pem
+
+# Runtime output
+*.log
