@@ -1,0 +1,45 @@
+name: ryu-ai-passport
+
+services:
+  ollama:
+    image: ${OLLAMA_IMAGE:-ollama/ollama:latest}
+    container_name: ai-passport-ollama
+    restart: unless-stopped
+    ports:
+      - "${OLLAMA_BIND_ADDR:-127.0.0.1}:11434:11434"
+    environment:
+      OLLAMA_HOST: 0.0.0.0:11434
+      OLLAMA_KEEP_ALIVE: 10m
+    volumes:
+      - ollama-data:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  ollama-smoke:
+    image: ${OLLAMA_IMAGE:-ollama/ollama:latest}
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+      OLLAMA_SMOKE_MODEL: ${OLLAMA_SMOKE_MODEL:-llama3.2:1b}
+    entrypoint: ["/bin/sh", "-lc"]
+    command: |
+      set -eu
+      ollama pull "$OLLAMA_SMOKE_MODEL"
+      ollama run "$OLLAMA_SMOKE_MODEL" "Reply with exactly: ok"
+    profiles: ["smoke"]
+
+volumes:
+  ollama-data:
