@@ -1,9 +1,12 @@
 ---
-status: accepted
+status: superseded
 date: 2026-07-12
+superseded-by: 0002-linux-mint-personal-desktop-host
 ---
 
 # Run AI Passport as a zero-cost single-host local service
+
+> Superseded on 2026-08-10 by ADR 0002. This file preserves the former Windows/WSL architecture decision for history.
 
 AI Passport will serve at most 5–10 trusted friends and family, use local inference only, incur no hosting or model-API charges, and be available only while the owner's GPU PC is powered on. The PC is the single physical host; no VPS is used. Before any public route is enabled, the host must be upgraded from Windows 10 to a supported, fully patched Windows 11 release. Host boot must restore the service without an interactive Windows login. The Tailscale Windows service starts before login, owns the node identity, provides Funnel HTTPS ingress, and proxies only configured public routes to WSL2 services through localhost. Docker Engine and Docker Compose v2 inside Ubuntu on WSL2 manage Authentik, Open WebUI, a Discord provisioning bot, LiteLLM with Postgres, Ollama on the RTX 3060 12 GB GPU, and a private Prometheus/Grafana monitoring stack.
 

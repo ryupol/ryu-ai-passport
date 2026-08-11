@@ -1,6 +1,8 @@
 # Slice 1: local inference base
 
-This slice stands up a single private Ollama service on the Ubuntu host.
+This slice stands up a single private Ollama service on the Linux Mint host.
+Docker is started manually during early implementation; the finished project uses
+the Start AI Passport launcher and does not start Docker or containers at boot.
 
 ## Files
 
@@ -38,4 +40,5 @@ The smoke helper:
 
 - The `ollama` container stays healthy after startup.
 - The service remains bound to `127.0.0.1:11434`.
-- The smoke helper exits cleanly from the Ubuntu host.
+- The smoke helper exits cleanly from the Linux Mint host.
+- `docker compose down` stops the service without deleting the model volume.

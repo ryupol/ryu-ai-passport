@@ -1,0 +1,7 @@
+interface:
+  display_name: "Record Slice Progress"
+  short_description: "Record verified slice evidence in the handoff"
+  default_prompt: "Use $record-slice-progress to verify the current slice and update HANDOFF.md with evidence."
+
+policy:
+  allow_implicit_invocation: true
