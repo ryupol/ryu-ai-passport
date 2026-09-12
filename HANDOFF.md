@@ -1,6 +1,6 @@
 # AI Passport handoff
 
-Updated: 2026-08-10
+Updated: 2026-09-12
 
 ## Next-session goal
 
@@ -57,7 +57,7 @@ only as the superseded Windows/WSL decision.
 
 ## Migration gate status
 
-- Status: planned; operator execution not started.
+- Status: operator execution started; migration gates are incomplete.
 - Target: Linux Mint 22.3 Cinnamon, hostname `ryupol`, native Linux repository.
 - Recovery: two USB drives; USB 1 must boot official Windows Setup and remain
   unchanged, while USB 2 holds the verified Mint installer.
@@ -66,6 +66,19 @@ only as the superseded Windows/WSL decision.
   `nvidia-smi` pass; Docker returned to disabled/inactive after testing.
 - An agent must not select disks, enter credentials, change firmware, or approve
   erasure for the operator.
+
+### Current operator checkpoint
+
+- The operator downloaded the Linux Mint 22.3 Cinnamon ISO and flashed it to the
+  available 32 GB USB using balenaEtcher.
+- The USB is ready for a live-session boot test; checksum/signature verification
+  has not been recorded yet.
+- Only one USB is currently available. A separate Windows recovery USB has not
+  been created, so obtain a second USB before erasing the internal disk if that
+  recovery option is required.
+- Next action: boot the target PC from the Mint USB, choose **Start Linux Mint**,
+  and test networking, display, input, audio, disk identity, and NVIDIA visibility.
+  Do not install or erase the disk until all migration gates pass.
 
 ## Approved decisions
 
