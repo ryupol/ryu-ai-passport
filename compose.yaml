@@ -35,10 +35,11 @@ services:
       OLLAMA_HOST: http://ollama:11434
       OLLAMA_SMOKE_MODEL: ${OLLAMA_SMOKE_MODEL:-llama3.2:1b}
     entrypoint: ["/bin/sh", "-lc"]
-    command: |
-      set -eu
-      ollama pull "$OLLAMA_SMOKE_MODEL"
-      ollama run "$OLLAMA_SMOKE_MODEL" "Reply with exactly: ok"
+    command:
+      - >-
+        set -eu;
+        ollama pull "$OLLAMA_SMOKE_MODEL";
+        ollama run "$OLLAMA_SMOKE_MODEL" "Reply with exactly: ok"
     profiles: ["smoke"]
 
 volumes:
